@@ -34,9 +34,15 @@ ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 ]
 
 { #category : #accessing }
+ODBCSQLEnvironmentHandle >> defineODBC3 [
+ 
+	(self setAttribute: SQL_ATTR_ODBC_VERSION value: SQL_OV_ODBC3 length: 1) inspect
+]
+
+{ #category : #accessing }
 ODBCSQLEnvironmentHandle >> setAttribute: attribute value: valuePtr length: stringLength [
 
-	self ffiCall: #(SQLRETURN SQLSetEnvAttr(self, SQLINTEGER attribute,  
+	^self ffiCall: #(SQLRETURN SQLSetEnvAttr(self, SQLINTEGER attribute,  
      															SQLPOINTER valuePtr,  
      															SQLINTEGER stringLength))
 ]

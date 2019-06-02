@@ -5,6 +5,10 @@ Class {
 	#name : #ODBCSQLConstants,
 	#superclass : #SharedPool,
 	#classVars : [
+		'SQLHANDLE',
+		'SQLHDBC',
+		'SQLHENV',
+		'SQLHSTMT',
 		'SQLINTEGER',
 		'SQLPOINTER',
 		'SQLRETURN',
@@ -131,7 +135,8 @@ ODBCSQLConstants class >> initializeConnectionAttributes [
 
 { #category : #'private - initialization' }
 ODBCSQLConstants class >> initializeConstants [
-
+	<script>
+	
 	self 
 		initializeSpecialLengthIndicators;
 		initializeReturnValues;
@@ -327,10 +332,13 @@ ODBCSQLConstants class >> initializeStatementAttributes [
 
 { #category : #'private - initialization' }
 ODBCSQLConstants class >> initializeTypes [
-
+	<script>
 	SQLINTEGER := 'long'.
 	
 	SQLPOINTER := 'void*'.
 	
-	
+	SQLHANDLE := SQLINTEGER.	
+	SQLHENV := #ODBCSQLEnvironmentHandle.
+	SQLHDBC := #ODBCSQLConnectionHandle.
+	SQLHSTMT := #ODBCSQLStatementHandle.
 ]

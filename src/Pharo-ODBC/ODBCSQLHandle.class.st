@@ -5,7 +5,8 @@ Class {
 	#name : #ODBCSQLHandle,
 	#superclass : #FFIExternalObject,
 	#pools : [
-		'ODBCSQLConstants'
+		'ODBCSQLConstants',
+		'ODBCSQLConstantsEx'
 	],
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
@@ -38,4 +39,10 @@ ODBCSQLHandle class >> freeHandle: handle [
 ODBCSQLHandle class >> isAbstract [ 
 
 	^self name = #ODBCSQLHandle
+]
+
+{ #category : #accessing }
+ODBCSQLHandle >> ffiLibraryName [
+
+	^self class ffiLibraryName
 ]

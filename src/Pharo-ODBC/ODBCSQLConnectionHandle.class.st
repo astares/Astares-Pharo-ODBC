@@ -12,6 +12,7 @@ ODBCSQLConnectionHandle class >> allocate [
 	<script: 'self allocate inspect'>
 	|env ret conn |
 	env := ODBCSQLEnvironmentHandle new.
+ 
 	conn := self new.
 	ret := self allocateOutputHandle: conn on: env handle value.
 	^ret = SQL_SUCCESS 
