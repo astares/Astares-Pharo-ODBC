@@ -19,7 +19,7 @@ ODBCSQLEnvironmentHandle class >> allocate [
 
 ]
 
-{ #category : #primitives }
+{ #category : #'private - primitives' }
 ODBCSQLEnvironmentHandle class >> allocateOutputHandle: outputHandle [
 
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle (SQL_HANDLE_ENV, SQL_NULL_HANDLE,  #ODBCSQLEnvironmentHandle* outputHandle))

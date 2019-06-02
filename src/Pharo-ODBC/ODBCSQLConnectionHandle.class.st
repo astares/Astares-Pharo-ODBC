@@ -7,6 +7,25 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
+{ #category : #'instance allocation' }
+ODBCSQLConnectionHandle class >> allocate [
+	<script: 'self allocate inspect'>
+	|env ret conn |
+	env := ODBCSQLEnvironmentHandle new.
+	conn := self new.
+	ret := self allocateOutputHandle: conn on: env.
+	^ret = SQL_SUCCESS 
+		ifTrue: [ ^env ]
+		ifFalse: [ self error: 'Not able to allocate ODBC connection' ]
+
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLConnectionHandle class >> allocateOutputHandle: outputHandle on: anEnvironmentHandle [
+
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle (SQL_HANDLE_DBC, anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
+]
+
 { #category : #'private - finalization' }
 ODBCSQLConnectionHandle class >> freeHandle: handle [
 	"Free up the handle and its associated resources"	
