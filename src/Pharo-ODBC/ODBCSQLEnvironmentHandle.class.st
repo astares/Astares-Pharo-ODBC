@@ -24,3 +24,11 @@ ODBCSQLEnvironmentHandle class >> allocateOutputHandle: outputHandle [
 
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle (SQL_HANDLE_ENV, SQL_NULL_HANDLE,  #ODBCSQLEnvironmentHandle* outputHandle))
 ]
+
+{ #category : #'private - finalization' }
+ODBCSQLEnvironmentHandle class >> freeHandle: handle [
+	"Free up the handle and its associated resources"	
+		
+	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, ODBCSQLEnvironmentHandle handle))
+	
+]
