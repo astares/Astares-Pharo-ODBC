@@ -13,17 +13,17 @@ ODBCSQLConnectionHandle class >> allocate [
 	|env ret conn |
 	env := ODBCSQLEnvironmentHandle new.
 	conn := self new.
-	ret := self allocateOutputHandle: conn on: env.
+	ret := self allocateOutputHandle: conn on: env handle value.
 	^ret = SQL_SUCCESS 
 		ifTrue: [ ^env ]
-		ifFalse: [ self error: 'Not able to allocate ODBC connection' ]
+		ifFalse: [ self error: 'Not able to allocate ODBC connection: ', ret asString ]
 
 ]
 
 { #category : #'private - primitives' }
 ODBCSQLConnectionHandle class >> allocateOutputHandle: outputHandle on: anEnvironmentHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle (SQL_HANDLE_DBC, ODBCSQLEnvironmentHandle anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, SQL_NULL_HANDLE,  ODBCSQLConnectionHandle* outputHandle))
 ]
 
 { #category : #'private - finalization' }

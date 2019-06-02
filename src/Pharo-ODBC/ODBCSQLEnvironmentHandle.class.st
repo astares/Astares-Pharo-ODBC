@@ -22,7 +22,7 @@ ODBCSQLEnvironmentHandle class >> allocate [
 { #category : #'private - primitives' }
 ODBCSQLEnvironmentHandle class >> allocateOutputHandle: outputHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle (SQL_HANDLE_ENV, SQL_NULL_HANDLE,  #ODBCSQLEnvironmentHandle* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
 ]
 
 { #category : #'private - finalization' }
@@ -31,4 +31,12 @@ ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 		
 	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, ODBCSQLEnvironmentHandle handle))
 	
+]
+
+{ #category : #accessing }
+ODBCSQLEnvironmentHandle >> setAttribute: attribute value: valuePtr length: stringLength [
+
+	self ffiCall: #(SQLRETURN SQLSetEnvAttr(self, SQLINTEGER attribute,  
+     															SQLPOINTER valuePtr,  
+     															SQLINTEGER stringLength))
 ]

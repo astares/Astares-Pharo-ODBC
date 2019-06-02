@@ -5,7 +5,7 @@ Class {
 	#name : #ODBCSQLHandle,
 	#superclass : #FFIExternalObject,
 	#pools : [
-		'ODBCConstants'
+		'ODBCSQLConstants'
 	],
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }

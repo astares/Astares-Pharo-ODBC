@@ -2,9 +2,11 @@
 Some ODBC constant definitions
 "
 Class {
-	#name : #ODBCConstants,
+	#name : #ODBCSQLConstants,
 	#superclass : #SharedPool,
 	#classVars : [
+		'SQLINTEGER',
+		'SQLPOINTER',
 		'SQLRETURN',
 		'SQLSMALLINT',
 		'SQL_ATTR_APP_PARAM_DESC',
@@ -113,7 +115,22 @@ Class {
 }
 
 { #category : #initialization }
-ODBCConstants class >> initialize [
+ODBCSQLConstants class >> initialize [
+
+	self 
+		initializeConstants;
+		initializeTypes
+]
+
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeConnectionAttributes [
+
+	SQL_ATTR_AUTO_IPD := 10001.
+	SQL_ATTR_METADATA_ID := 10014
+]
+
+{ #category : #'private - initialization' }
+ODBCSQLConstants class >> initializeConstants [
 
 	self 
 		initializeSpecialLengthIndicators;
@@ -132,23 +149,16 @@ ODBCConstants class >> initialize [
 		initializeSQLTypes
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeConnectionAttributes [
-
-	SQL_ATTR_AUTO_IPD := 10001.
-	SQL_ATTR_METADATA_ID := 10014
-]
-
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeDateTimeLengthConstants [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeDateTimeLengthConstants [
 
 	SQL_DATE_LEN := 10.
 	SQL_TIME_LEN := 8.
 	SQL_TIMESTAMP_LEN := 19.
 ]
 
-{ #category : #initialization }
-ODBCConstants class >> initializeDiagnosticAreaFieldIdentifiers [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeDiagnosticAreaFieldIdentifiers [
 
 	SQL_DIAG_RETURNCODE := 1.
 	SQL_DIAG_NUMBER := 2.
@@ -165,8 +175,8 @@ ODBCConstants class >> initializeDiagnosticAreaFieldIdentifiers [
 	
 ]
 
-{ #category : #initialization }
-ODBCConstants class >> initializeDynamicFunctionCodes [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeDynamicFunctionCodes [
 
 	SQL_DIAG_ALTER_DOMAIN := 3.
 	SQL_DIAG_ALTER_TABLE := 4.
@@ -201,21 +211,21 @@ ODBCConstants class >> initializeDynamicFunctionCodes [
 	
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeEnvironmentAttributes [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeEnvironmentAttributes [
 
 	SQL_ATTR_OUTPUT_NTS := 10001
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeFlagsForNullTerminatedString [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeFlagsForNullTerminatedString [
 
 	SQL_NTS := 3.               
 	SQL_NTSL := 3
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeHandleTypeIdentifiers [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeHandleTypeIdentifiers [
 
 	SQL_HANDLE_ENV := 1.
 	SQL_HANDLE_DBC := 2.
@@ -223,14 +233,14 @@ ODBCConstants class >> initializeHandleTypeIdentifiers [
 	SQL_HANDLE_DESC := 4.
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeMaximumMessageLength [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeMaximumMessageLength [
 
 	SQL_MAX_MESSAGE_LENGTH := 512
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeNullHandles [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeNullHandles [
 
 	SQL_NULL_HANDLE := 0.		"null handle used in place of parent handle when allocating HENV"
 	
@@ -241,8 +251,8 @@ ODBCConstants class >> initializeNullHandles [
 	SQL_NULL_HDESC  := 0.
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeReturnValues [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeReturnValues [
 
 	SQL_SUCCESS	:= 0.
 	SQL_SUCCESS_WITH_INFO := 1.
@@ -256,8 +266,8 @@ ODBCConstants class >> initializeReturnValues [
 	SQL_PARAM_DATA_AVAILABLE := 101.
 ]
 
-{ #category : #initialization }
-ODBCConstants class >> initializeSQLDescriptorFieldIdentifiers [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeSQLDescriptorFieldIdentifiers [
 
 	SQL_DESC_COUNT := 1001.
 	SQL_DESC_TYPE  := 1002.
@@ -285,23 +295,23 @@ ODBCConstants class >> initializeSQLDescriptorFieldIdentifiers [
 	SQL_DESC_USER_DEFINED_TYPE_NAME := 1028
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeSQLTypes [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeSQLTypes [
 
 	SQLSMALLINT := 'short'.
 	SQLRETURN := SQLSMALLINT.
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeSpecialLengthIndicators [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeSpecialLengthIndicators [
 
 	SQL_NULL_DATA  := -1.
 	SQL_DATA_AT_EXEC := -2
 
 ]
 
-{ #category : #'private - initialization' }
-ODBCConstants class >> initializeStatementAttributes [
+{ #category : #'private - initialization constants' }
+ODBCSQLConstants class >> initializeStatementAttributes [
 
 	SQL_ATTR_APP_ROW_DESC := 10010.
 	SQL_ATTR_APP_PARAM_DESC := 10011.
@@ -313,4 +323,14 @@ ODBCConstants class >> initializeStatementAttributes [
 	"SQL_ATTR_CURSOR_SCROLLABLE values"
 	SQL_NONSCROLLABLE := 0.
 	SQL_SCROLLABLE := 1.
+]
+
+{ #category : #'private - initialization' }
+ODBCSQLConstants class >> initializeTypes [
+
+	SQLINTEGER := 'long'.
+	
+	SQLPOINTER := 'void*'.
+	
+	
 ]
