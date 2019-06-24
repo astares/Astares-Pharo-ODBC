@@ -30,6 +30,29 @@ ODBCSQLEnvironment class >> allDataSources [
 	
 ]
 
+{ #category : #'private - primitives' }
+ODBCSQLEnvironment class >> allDrivers [
+	"Return all available drivers with name and attributes"
+	<script: 'self allDrivers inspect'>
+	
+	| env serverName  attributes ret dataSources dir |
+	env := self forODBC3_80.
+ 	dataSources := OrderedCollection new.
+	serverName := ByteArray new: 256.
+	attributes := ByteArray new: 256. 
+	dir := SQL_FETCH_FIRST.
+	[ ret := self getDrivers: env direction: dir 
+					  driverName: serverName   length: serverName  byteSize nameLength: 0 
+					  attributes: attributes length: attributes byteSize nameLength: 0.
+	  ret = SQL_SUCCESS ] whileTrue: [ 
+		dataSources add: (ODBCDriver 
+								 name: (serverName asString copyUpTo: Character null) attributes: (attributes asString copyUpTo: Character null)).
+		dir := SQL_FETCH_NEXT.
+	].
+	^dataSources
+	
+]
+
 { #category : #'private - allocation' }
 ODBCSQLEnvironment class >> allocate [
 
@@ -88,6 +111,13 @@ ODBCSQLEnvironment class >> forODBC4 [
 ODBCSQLEnvironment class >> getDataSources: env direction: direction serverName: serverName length: bufferLength1 nameLength: nameLength1Ptr description: description length: bufferLength2 nameLength: nameLength2Ptr [
 	
 	^ self ffiCall: #(SQLRETURN SQLDataSources(ODBCSQLEnvironment env, SQLUSMALLINT direction, SQLCHAR* serverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* description, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
+	
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLEnvironment class >> getDrivers: env direction: direction driverName: driverName length: bufferLength1 nameLength: nameLength1Ptr attributes: attributes length: bufferLength2 nameLength: nameLength2Ptr [
+	
+	^ self ffiCall: #(SQLRETURN SQLDrivers(ODBCSQLEnvironment env, SQLUSMALLINT direction, SQLCHAR* driverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* attributes, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
 	
 ]
 
