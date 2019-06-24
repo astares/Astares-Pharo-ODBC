@@ -2,13 +2,13 @@
 A handle for a descriptor
 "
 Class {
-	#name : #ODBCSQLDescriptorHandle,
+	#name : #ODBCSQLDescriptor,
 	#superclass : #ODBCSQLHandle,
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
 { #category : #'private - accessing' }
-ODBCSQLDescriptorHandle class >> sqlHandleType [
+ODBCSQLDescriptor class >> sqlHandleType [
 
 	^SQL_HANDLE_DESC
 ]

@@ -2,7 +2,7 @@
 A handle for a connection
 "
 Class {
-	#name : #ODBCSQLConnectionHandle,
+	#name : #ODBCSQLConnection,
 	#superclass : #ODBCSQLHandle,
 	#instVars : [
 		'environment'
@@ -11,21 +11,21 @@ Class {
 }
 
 { #category : #'private - primitives' }
-ODBCSQLConnectionHandle class >> allocateConnectionHandle: outputHandle on: anEnvironmentHandle [
+ODBCSQLConnection class >> allocateConnectionHandle: outputHandle on: anEnvironmentHandle [
 
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, ODBCSQLEnvironmentHandle anEnvironmentHandle,  ODBCSQLConnectionHandle* outputHandle))
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLConnectionHandle class >> forODBC3 [
+ODBCSQLConnection class >> forODBC3 [
 	<script: 'self forODBC3 inspect'>
   
- 	^self on: ODBCSQLEnvironmentHandle forODBC3
+ 	^self on: ODBCSQLEnvironment forODBC3
 	
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLConnectionHandle class >> on: anODBCEnvironment [
+ODBCSQLConnection class >> on: anODBCEnvironment [
 	| conn ret |
 	conn := self new
 		environment: anODBCEnvironment;
@@ -39,23 +39,23 @@ ODBCSQLConnectionHandle class >> on: anODBCEnvironment [
 ]
 
 { #category : #'private - accessing' }
-ODBCSQLConnectionHandle class >> sqlHandleType [
+ODBCSQLConnection class >> sqlHandleType [
 
 	^SQL_HANDLE_DBC
 ]
 
 { #category : #accessing }
-ODBCSQLConnectionHandle >> environment [
+ODBCSQLConnection >> environment [
 	^ environment
 ]
 
 { #category : #accessing }
-ODBCSQLConnectionHandle >> environment: anObject [
+ODBCSQLConnection >> environment: anObject [
 	environment := anObject
 ]
 
 { #category : #'private - finalization' }
-ODBCSQLConnectionHandle >> finalize [ 
+ODBCSQLConnection >> finalize [ 
 	environment := nil.
 	super finalize 
 ]

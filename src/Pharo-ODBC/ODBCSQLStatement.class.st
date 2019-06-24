@@ -2,13 +2,13 @@
 A handle for a SQL statement
 "
 Class {
-	#name : #ODBCSQLStatementHandle,
+	#name : #ODBCSQLStatement,
 	#superclass : #ODBCSQLHandle,
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
 { #category : #'private - accessing' }
-ODBCSQLStatementHandle class >> sqlHandleType [
+ODBCSQLStatement class >> sqlHandleType [
 
 	^SQL_HANDLE_STMT
 ]
