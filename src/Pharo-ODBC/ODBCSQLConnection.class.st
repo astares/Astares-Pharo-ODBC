@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'environment'
 	],
-	#category : #'Pharo-ODBC-UFFI-Handles'
+	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
 { #category : #'private - primitives' }

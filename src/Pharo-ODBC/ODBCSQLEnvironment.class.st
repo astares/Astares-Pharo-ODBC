@@ -4,11 +4,12 @@ An environment handle
 Class {
 	#name : #ODBCSQLEnvironment,
 	#superclass : #ODBCSQLHandle,
-	#category : #'Pharo-ODBC-UFFI-Handles'
+	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
 { #category : #'private - primitives' }
 ODBCSQLEnvironment class >> allDataSources [
+	"Return all available data sources with name and description"
 	<script: 'self allDataSources inspect'>
 	
 	| env serverName description ret dataSources dir |
@@ -21,7 +22,8 @@ ODBCSQLEnvironment class >> allDataSources [
 					  serverName: serverName   length: serverName  byteSize nameLength: 0 
 					  description: description length: description byteSize nameLength: 0.
 	  ret = SQL_SUCCESS ] whileTrue: [ 
-		dataSources add: ((serverName asString copyUpTo: Character null) -> (description asString copyUpTo: Character null)).
+		dataSources add: (ODBCDataSource 
+								 name: (serverName asString copyUpTo: Character null) description: (description asString copyUpTo: Character null)).
 		dir := SQL_FETCH_NEXT.
 	].
 	^dataSources
