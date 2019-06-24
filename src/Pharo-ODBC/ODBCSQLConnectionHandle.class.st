@@ -13,7 +13,7 @@ ODBCSQLConnectionHandle class >> allocate [
 	|env ret conn |
 	env := ODBCSQLEnvironmentHandle forODBC3. 
 	conn := self new.
-	conn environment: env.
+	 
 	ret := self allocateConnectionHandle: conn on: env.
 	^ret = SQL_SUCCESS 
 		ifTrue: [ ^conn ]
