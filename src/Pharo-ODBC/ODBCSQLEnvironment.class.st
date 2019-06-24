@@ -29,17 +29,20 @@ ODBCSQLEnvironment class >> allocateEnvironmentHandle: outputHandle [
 ODBCSQLEnvironment class >> callDataSource [
 	<script>
 	
-	| env dir serverName description nameLength1 nameLength2 ret |
+	| env serverName description ret dataSources dir |
 	env := self forODBC3_80.
-	dir := SQL_FETCH_FIRST.
+ 	dataSources := OrderedCollection new.
 	serverName := ByteArray new: 256.
-	description := ByteArray new: 256.
-	nameLength1 := 0.
-	nameLength2 := 0.
-	 
-	ret := self getDataSources: env direction: dir serverName: serverName length: serverName byteSize nameLength: nameLength1 description: description length: description byteSize nameLength: nameLength2.
-	
-	ret inspect.
+	description := ByteArray new: 256. 
+	dir := SQL_FETCH_FIRST.
+	[ ret := self getDataSources: env direction: dir 
+					  serverName: serverName   length: serverName  byteSize nameLength: 0 
+					  description: description length: description byteSize nameLength: 0.
+	  ret = SQL_SUCCESS ] whileTrue: [ 
+		dataSources add: (serverName asString copy -> description asString copy).
+		dir := SQL_FETCH_NEXT.
+	].
+	^dataSources inspect
 	
 ]
 
