@@ -13,7 +13,7 @@ Class {
 { #category : #'private - primitives' }
 ODBCSQLConnection class >> allocateConnectionHandle: outputHandle on: anEnvironmentHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, ODBCSQLEnvironmentHandle anEnvironmentHandle,  ODBCSQLConnectionHandle* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, ODBCSQLEnvironment anEnvironmentHandle,  ODBCSQLConnection* outputHandle))
 ]
 
 { #category : #'instance allocation' }

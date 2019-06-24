@@ -19,10 +19,28 @@ ODBCSQLEnvironment class >> allocate [
 
 ]
 
-{ #category : #'private - primitives' }
+{ #category : #'private - allocation' }
 ODBCSQLEnvironment class >> allocateEnvironmentHandle: outputHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironment* outputHandle))
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLEnvironment class >> callDataSource [
+	<script>
+	
+	| env dir serverName description nameLength1 nameLength2 ret |
+	env := self forODBC3_80.
+	dir := SQL_FETCH_FIRST.
+	serverName := ByteArray new: 256.
+	description := ByteArray new: 256.
+	nameLength1 := 0.
+	nameLength2 := 0.
+	 
+	ret := self getDataSources: env direction: dir serverName: serverName length: serverName byteSize nameLength: nameLength1 description: description length: description byteSize nameLength: nameLength2.
+	
+	ret inspect.
+	
 ]
 
 { #category : #'instance allocation' }
@@ -66,9 +84,16 @@ ODBCSQLEnvironment class >> forODBC4 [
 ]
 
 { #category : #'private - primitives' }
+ODBCSQLEnvironment class >> getDataSources: env direction: direction serverName: serverName length: bufferLength1 nameLength: nameLength1Ptr description: description length: bufferLength2 nameLength: nameLength2Ptr [
+	
+	^ self ffiCall: #(SQLRETURN SQLDataSources(ODBCSQLEnvironment env, SQLUSMALLINT direction, SQLCHAR* serverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* description, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
+	
+]
+
+{ #category : #'private - primitives' }
 ODBCSQLEnvironment class >> setODBCVersion: env to: odbcVersion [
 	
-	self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
+	^ self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironment env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
 	
 ]
 

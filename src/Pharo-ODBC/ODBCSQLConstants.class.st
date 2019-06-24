@@ -94,6 +94,12 @@ Class {
 		'SQL_DIAG_UNKNOWN_STATEMENT',
 		'SQL_DIAG_UPDATE_WHERE',
 		'SQL_ERROR',
+		'SQL_FETCH_ABSOLUTE',
+		'SQL_FETCH_FIRST',
+		'SQL_FETCH_LAST',
+		'SQL_FETCH_NEXT',
+		'SQL_FETCH_PRIOR',
+		'SQL_FETCH_RELATIVE',
 		'SQL_HANDLE_DBC',
 		'SQL_HANDLE_DESC',
 		'SQL_HANDLE_ENV',
@@ -154,8 +160,11 @@ ODBCSQLConstants class >> initializeConstants [
 		initializeSQLDescriptorFieldIdentifiers;
 		initializeDiagnosticAreaFieldIdentifiers;
 		initializeDynamicFunctionCodes;
-		initializeNullHandles;
-		initializeSQLTypes
+		"..."
+		initializeFetchConstants;
+		"..."
+		initializeNullHandles
+		
 ]
 
 { #category : #'private - initialization constants' }
@@ -224,6 +233,19 @@ ODBCSQLConstants class >> initializeDynamicFunctionCodes [
 ODBCSQLConstants class >> initializeEnvironmentAttributes [
 
 	SQL_ATTR_OUTPUT_NTS := 10001
+]
+
+{ #category : #'private - initialization' }
+ODBCSQLConstants class >> initializeFetchConstants [
+
+	SQL_FETCH_NEXT := 1.
+	SQL_FETCH_FIRST := 2.
+	
+	SQL_FETCH_LAST := 3.
+	SQL_FETCH_PRIOR := 4.
+	SQL_FETCH_ABSOLUTE := 5.
+	SQL_FETCH_RELATIVE := 6.
+		
 ]
 
 { #category : #'private - initialization constants' }
@@ -304,7 +326,20 @@ ODBCSQLConstants class >> initializeSQLDescriptorFieldIdentifiers [
 	SQL_DESC_USER_DEFINED_TYPE_NAME := 1028
 ]
 
-{ #category : #'private - initialization constants' }
+{ #category : #'private - initialization types' }
+ODBCSQLConstants class >> initializeSQLHandleTypes [
+
+	SQLHANDLE := 'void*'.	
+	SQLHENV   := #ODBCSQLEnvironment.
+	SQLHDBC   := #ODBCSQLConnection.
+	SQLHSTMT  := #ODBCSQLStatement.
+	SQLHDESC  := #ODBCSQLDescriptor
+		
+
+	
+]
+
+{ #category : #'private - initialization types' }
 ODBCSQLConstants class >> initializeSQLTypes [
    SQLCHAR := 'uchar'.
 	SQLINTEGER := 'long'.
@@ -344,10 +379,10 @@ ODBCSQLConstants class >> initializeStatementAttributes [
 { #category : #'private - initialization' }
 ODBCSQLConstants class >> initializeTypes [
 	<script>
+	self 
+		initializeSQLTypes;
+		initializeSQLHandleTypes
+		
 
-	SQLHANDLE := 'void*'.	
-	SQLHENV   := #ODBCSQLEnvironment.
-	SQLHDBC   := #ODBCSQLConnection.
-	SQLHSTMT  := #ODBCSQLStatement.
-	SQLHDESC  := #ODBCSQLDescriptor
+	
 ]
