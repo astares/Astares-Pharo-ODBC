@@ -5,6 +5,7 @@ Class {
 	#name : #ODBCSQLConstants,
 	#superclass : #SharedPool,
 	#classVars : [
+		'SQLCHAR',
 		'SQLHANDLE',
 		'SQLHDBC',
 		'SQLHDESC',
@@ -14,6 +15,7 @@ Class {
 		'SQLPOINTER',
 		'SQLRETURN',
 		'SQLSMALLINT',
+		'SQLUINTEGER',
 		'SQLUSMALLINT',
 		'SQL_ATTR_APP_PARAM_DESC',
 		'SQL_ATTR_APP_ROW_DESC',
@@ -304,10 +306,15 @@ ODBCSQLConstants class >> initializeSQLDescriptorFieldIdentifiers [
 
 { #category : #'private - initialization constants' }
 ODBCSQLConstants class >> initializeSQLTypes [
-
+   SQLCHAR := 'uchar'.
+	SQLINTEGER := 'long'.
+	SQLUINTEGER := 'ulong'.
+	
+	SQLPOINTER := 'void*'.
+	
 	SQLSMALLINT := 'short'.
 	SQLUSMALLINT := 'ushort'.
-	SQLINTEGER := 'long'.
+	
 	SQLRETURN := SQLSMALLINT.
 ]
 
@@ -337,9 +344,7 @@ ODBCSQLConstants class >> initializeStatementAttributes [
 { #category : #'private - initialization' }
 ODBCSQLConstants class >> initializeTypes [
 	<script>
-	
-	SQLPOINTER := 'void*'.
-	
+
 	SQLHANDLE := 'void*'.	
 	SQLHENV   := #ODBCSQLEnvironment.
 	SQLHDBC   := #ODBCSQLConnection.
