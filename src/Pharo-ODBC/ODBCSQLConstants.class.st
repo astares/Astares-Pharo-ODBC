@@ -7,12 +7,14 @@ Class {
 	#classVars : [
 		'SQLHANDLE',
 		'SQLHDBC',
+		'SQLHDESC',
 		'SQLHENV',
 		'SQLHSTMT',
 		'SQLINTEGER',
 		'SQLPOINTER',
 		'SQLRETURN',
 		'SQLSMALLINT',
+		'SQLUSMALLINT',
 		'SQL_ATTR_APP_PARAM_DESC',
 		'SQL_ATTR_APP_ROW_DESC',
 		'SQL_ATTR_AUTO_IPD',
@@ -304,6 +306,8 @@ ODBCSQLConstants class >> initializeSQLDescriptorFieldIdentifiers [
 ODBCSQLConstants class >> initializeSQLTypes [
 
 	SQLSMALLINT := 'short'.
+	SQLUSMALLINT := 'ushort'.
+	SQLINTEGER := 'long'.
 	SQLRETURN := SQLSMALLINT.
 ]
 
@@ -333,12 +337,12 @@ ODBCSQLConstants class >> initializeStatementAttributes [
 { #category : #'private - initialization' }
 ODBCSQLConstants class >> initializeTypes [
 	<script>
-	SQLINTEGER := 'long'.
 	
 	SQLPOINTER := 'void*'.
 	
-	SQLHANDLE := SQLINTEGER.	
-	SQLHENV := #ODBCSQLEnvironmentHandle.
-	SQLHDBC := #ODBCSQLConnectionHandle.
-	SQLHSTMT := #ODBCSQLStatementHandle.
+	SQLHANDLE := 'void*'.	
+	SQLHENV   := #ODBCSQLEnvironmentHandle.
+	SQLHDBC   := #ODBCSQLConnectionHandle.
+	SQLHSTMT  := #ODBCSQLStatementHandle.
+	SQLHDESC  := #ODBCSQLDescriptorHandle
 ]
