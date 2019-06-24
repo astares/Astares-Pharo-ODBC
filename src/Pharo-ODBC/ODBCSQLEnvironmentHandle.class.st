@@ -12,7 +12,7 @@ ODBCSQLEnvironmentHandle class >> allocate [
 	<script: 'self allocate inspect'>
 	|env ret|
 	env := self new.
-	ret := self allocateOutputHandle: env.
+	ret := self allocateEnvironmentHandle: env.
 	^ret = SQL_SUCCESS 
 		ifTrue: [ ^env ]
 		ifFalse: [ self error: 'Not able to allocate ODBC environment' ]
@@ -20,7 +20,7 @@ ODBCSQLEnvironmentHandle class >> allocate [
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironmentHandle class >> allocateOutputHandle: outputHandle [
+ODBCSQLEnvironmentHandle class >> allocateEnvironmentHandle: outputHandle [
 
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
 ]
@@ -31,6 +31,24 @@ ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 		
 	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, ODBCSQLEnvironmentHandle handle))
 	
+]
+
+{ #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> setODBCVersion: env to: odbcVersion [
+	
+	self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
+	
+]
+
+{ #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> setup [
+	<script: 'self setup inspect'>
+	|env ret|
+	env := self allocate.
+	ret := self setODBCVersion: env to: (ExternalAddress fromAddress: SQL_OV_ODBC3).
+	^ret = SQL_SUCCESS 
+		ifFalse: [ self error: 'Not able to setup ODBC 3.0' ]
+
 ]
 
 { #category : #accessing }
