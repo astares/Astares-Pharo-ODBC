@@ -7,9 +7,30 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
+{ #category : #'private - primitives' }
+ODBCSQLEnvironment class >> allDataSources [
+	<script: 'self allDataSources inspect'>
+	
+	| env serverName description ret dataSources dir |
+	env := self forODBC3_80.
+ 	dataSources := OrderedCollection new.
+	serverName := ByteArray new: 256.
+	description := ByteArray new: 256. 
+	dir := SQL_FETCH_FIRST.
+	[ ret := self getDataSources: env direction: dir 
+					  serverName: serverName   length: serverName  byteSize nameLength: 0 
+					  description: description length: description byteSize nameLength: 0.
+	  ret = SQL_SUCCESS ] whileTrue: [ 
+		dataSources add: ((serverName asString copyUpTo: Character null) -> (description asString copyUpTo: Character null)).
+		dir := SQL_FETCH_NEXT.
+	].
+	^dataSources
+	
+]
+
 { #category : #'private - allocation' }
 ODBCSQLEnvironment class >> allocate [
-	<script: 'self allocate inspect'>
+
 	|env ret|
 	env := self new.
 	ret := self allocateEnvironmentHandle: env.
@@ -25,30 +46,8 @@ ODBCSQLEnvironment class >> allocateEnvironmentHandle: outputHandle [
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironment* outputHandle))
 ]
 
-{ #category : #'private - primitives' }
-ODBCSQLEnvironment class >> callDataSource [
-	<script>
-	
-	| env serverName description ret dataSources dir |
-	env := self forODBC3_80.
- 	dataSources := OrderedCollection new.
-	serverName := ByteArray new: 256.
-	description := ByteArray new: 256. 
-	dir := SQL_FETCH_FIRST.
-	[ ret := self getDataSources: env direction: dir 
-					  serverName: serverName   length: serverName  byteSize nameLength: 0 
-					  description: description length: description byteSize nameLength: 0.
-	  ret = SQL_SUCCESS ] whileTrue: [ 
-		dataSources add: (serverName asString copy -> description asString copy).
-		dir := SQL_FETCH_NEXT.
-	].
-	^dataSources inspect
-	
-]
-
 { #category : #'instance allocation' }
 ODBCSQLEnvironment class >> forODBC2 [
-	<script: 'self forODBC2 inspect'>
 	
 	^self 
 		allocate
@@ -58,8 +57,7 @@ ODBCSQLEnvironment class >> forODBC2 [
 
 { #category : #'instance allocation' }
 ODBCSQLEnvironment class >> forODBC3 [
-	<script: 'self forODBC3 inspect'>
-	
+
 	^self 
 		allocate
 		useODBC3;
@@ -68,8 +66,7 @@ ODBCSQLEnvironment class >> forODBC3 [
 
 { #category : #'instance allocation' }
 ODBCSQLEnvironment class >> forODBC3_80 [
-	<script: 'self forODBC3_80 inspect'>
-	
+
 	^self 
 		allocate
 		useODBC3_80;
@@ -78,7 +75,6 @@ ODBCSQLEnvironment class >> forODBC3_80 [
 
 { #category : #'instance allocation' }
 ODBCSQLEnvironment class >> forODBC4 [
-	<script: 'self forODBC4 inspect'>
 	
 	^self 
 		allocate
