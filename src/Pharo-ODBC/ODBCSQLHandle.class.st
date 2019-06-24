@@ -20,6 +20,7 @@ ODBCSQLHandle class >> ffiLibraryName [
 ODBCSQLHandle class >> finalizeResourceData: data [
 	
 	| ret |
+	Transcript show: 'freed'.
 	ret := self freeHandle: data.
 	ret = SQL_SUCCESS 
 				ifTrue: [ data beNull ]
@@ -45,4 +46,10 @@ ODBCSQLHandle class >> isAbstract [
 ODBCSQLHandle >> ffiLibraryName [
 
 	^self class ffiLibraryName
+]
+
+{ #category : #initialization }
+ODBCSQLHandle >> initialize [ 
+	super initialize.
+	self autoRelease 
 ]

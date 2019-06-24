@@ -7,7 +7,7 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
-{ #category : #'instance allocation' }
+{ #category : #'private - allocation' }
 ODBCSQLEnvironmentHandle class >> allocate [
 	<script: 'self allocate inspect'>
 	|env ret|
@@ -25,6 +25,36 @@ ODBCSQLEnvironmentHandle class >> allocateEnvironmentHandle: outputHandle [
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
 ]
 
+{ #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> forODBC2 [
+	<script: 'self forODBC2 inspect'>
+	
+	^self 
+		allocate
+		useODBC2;
+		yourself
+]
+
+{ #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> forODBC3 [
+	<script: 'self forODBC3 inspect'>
+	
+	^self 
+		allocate
+		useODBC3;
+		yourself
+]
+
+{ #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> forODBC4 [
+	<script: 'self forODBC4 inspect'>
+	
+	^self 
+		allocate
+		useODBC4;
+		yourself
+]
+
 { #category : #'private - finalization' }
 ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 	"Free up the handle and its associated resources"	
@@ -33,34 +63,30 @@ ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 	
 ]
 
-{ #category : #'instance allocation' }
+{ #category : #'private - primitives' }
 ODBCSQLEnvironmentHandle class >> setODBCVersion: env to: odbcVersion [
 	
 	self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
 	
 ]
 
-{ #category : #'instance allocation' }
-ODBCSQLEnvironmentHandle class >> setup [
-	<script: 'self setup inspect'>
-	|env ret|
-	env := self allocate.
-	ret := self setODBCVersion: env to: (ExternalAddress fromAddress: SQL_OV_ODBC3).
-	^ret = SQL_SUCCESS 
-		ifFalse: [ self error: 'Not able to setup ODBC 3.0' ]
-
+{ #category : #'private - accessing' }
+ODBCSQLEnvironmentHandle >> setODBCVersion: aVersion [
+	"aVersion is one of the SQL_OV_ ... symbols"
+ 	self class setODBCVersion: self to: (ExternalAddress fromAddress: aVersion)
 ]
 
-{ #category : #accessing }
-ODBCSQLEnvironmentHandle >> defineODBC3 [
- 
-	(self setAttribute: SQL_ATTR_ODBC_VERSION value: SQL_OV_ODBC3 length: 1) inspect
+{ #category : #'accessing - version' }
+ODBCSQLEnvironmentHandle >> useODBC2 [
+ 	self setODBCVersion: SQL_OV_ODBC2
 ]
 
-{ #category : #accessing }
-ODBCSQLEnvironmentHandle >> setAttribute: attribute value: valuePtr length: stringLength [
+{ #category : #'accessing - version' }
+ODBCSQLEnvironmentHandle >> useODBC3 [
+ 	self setODBCVersion: SQL_OV_ODBC3
+]
 
-	^self ffiCall: #(SQLRETURN SQLSetEnvAttr(self, SQLINTEGER attribute,  
-     															SQLPOINTER valuePtr,  
-     															SQLINTEGER stringLength))
+{ #category : #'accessing - version' }
+ODBCSQLEnvironmentHandle >> useODBC4 [
+ 	self setODBCVersion: SQL_OV_ODBC4
 ]
