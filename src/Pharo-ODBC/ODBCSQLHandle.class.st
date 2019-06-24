@@ -31,14 +31,14 @@ ODBCSQLHandle class >> finalizeResourceData: data [
 ODBCSQLHandle class >> freeHandle: handle [
 	"Free up the handle and its associated resources"	
 		
-	self freeHandle: handle ofType: self sqlHandleType
+	^self freeHandle: handle ofType: self sqlHandleType
 ]
 
 { #category : #'private - finalization' }
 ODBCSQLHandle class >> freeHandle: handle ofType: aType [
 	"Free up the handle and its associated resources"	
 		
-	self ffiCall: #(SQLRETURN SQLFreeHandle (SQLSMALLINT aType, SQLHANDLE handle))
+	^self ffiCall: #(SQLRETURN SQLFreeHandle (SQLSMALLINT aType, SQLHANDLE handle))
 	
 ]
 

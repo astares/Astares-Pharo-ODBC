@@ -24,14 +24,6 @@ ODBCSQLConnectionHandle class >> forODBC3 [
 	
 ]
 
-{ #category : #'private - finalization' }
-ODBCSQLConnectionHandle class >> freeHandle: handle [
-	"Free up the handle and its associated resources"	
-		
-	self freeHandle: handle ofType: SQL_HANDLE_DBC
-	
-]
-
 { #category : #'instance allocation' }
 ODBCSQLConnectionHandle class >> on: anODBCEnvironment [
 	| conn ret |
