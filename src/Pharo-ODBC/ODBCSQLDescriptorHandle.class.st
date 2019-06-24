@@ -7,10 +7,8 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Handles'
 }
 
-{ #category : #'private - finalization' }
-ODBCSQLDescriptorHandle class >> freeHandle: handle [
-	"Free up the handle and its associated resources"	
-		
-	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_DESC, ODBCSQLDescriptorHandle handle))
-	
+{ #category : #'private - accessing' }
+ODBCSQLDescriptorHandle class >> sqlHandleType [
+
+	^SQL_HANDLE_DESC
 ]

@@ -65,19 +65,17 @@ ODBCSQLEnvironmentHandle class >> forODBC4 [
 		yourself
 ]
 
-{ #category : #'private - finalization' }
-ODBCSQLEnvironmentHandle class >> freeHandle: handle [
-	"Free up the handle and its associated resources"	
-		
-	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, SQLHANDLE handle))
-	
-]
-
 { #category : #'private - primitives' }
 ODBCSQLEnvironmentHandle class >> setODBCVersion: env to: odbcVersion [
 	
 	self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
 	
+]
+
+{ #category : #'private - accessing' }
+ODBCSQLEnvironmentHandle class >> sqlHandleType [
+
+	^SQL_HANDLE_ENV
 ]
 
 { #category : #'private - accessing' }

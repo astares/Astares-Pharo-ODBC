@@ -29,9 +29,16 @@ ODBCSQLHandle class >> finalizeResourceData: data [
 
 { #category : #'private - finalization' }
 ODBCSQLHandle class >> freeHandle: handle [
+	"Free up the handle and its associated resources"	
+		
+	self freeHandle: handle ofType: self sqlHandleType
+]
 
-	self subclassResponsibility 
-
+{ #category : #'private - finalization' }
+ODBCSQLHandle class >> freeHandle: handle ofType: aType [
+	"Free up the handle and its associated resources"	
+		
+	self ffiCall: #(SQLRETURN SQLFreeHandle (SQLSMALLINT aType, SQLHANDLE handle))
 	
 ]
 
@@ -39,6 +46,12 @@ ODBCSQLHandle class >> freeHandle: handle [
 ODBCSQLHandle class >> isAbstract [ 
 
 	^self name = #ODBCSQLHandle
+]
+
+{ #category : #'private - accessing' }
+ODBCSQLHandle class >> sqlHandleType [
+
+	^self subclassResponsibility 
 ]
 
 { #category : #accessing }
