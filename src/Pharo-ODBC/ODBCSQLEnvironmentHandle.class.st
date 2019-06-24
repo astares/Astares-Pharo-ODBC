@@ -46,6 +46,16 @@ ODBCSQLEnvironmentHandle class >> forODBC3 [
 ]
 
 { #category : #'instance allocation' }
+ODBCSQLEnvironmentHandle class >> forODBC3_80 [
+	<script: 'self forODBC3_80 inspect'>
+	
+	^self 
+		allocate
+		useODBC3_80;
+		yourself
+]
+
+{ #category : #'instance allocation' }
 ODBCSQLEnvironmentHandle class >> forODBC4 [
 	<script: 'self forODBC4 inspect'>
 	
@@ -59,7 +69,7 @@ ODBCSQLEnvironmentHandle class >> forODBC4 [
 ODBCSQLEnvironmentHandle class >> freeHandle: handle [
 	"Free up the handle and its associated resources"	
 		
-	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, ODBCSQLEnvironmentHandle handle))
+	self ffiCall: #(SQLRETURN SQLFreeHandle (SQL_HANDLE_ENV, SQLHANDLE handle))
 	
 ]
 
@@ -84,6 +94,11 @@ ODBCSQLEnvironmentHandle >> useODBC2 [
 { #category : #'accessing - version' }
 ODBCSQLEnvironmentHandle >> useODBC3 [
  	self setODBCVersion: SQL_OV_ODBC3
+]
+
+{ #category : #'accessing - version' }
+ODBCSQLEnvironmentHandle >> useODBC3_80 [
+ 	self setODBCVersion: SQL_OV_ODBC3_80
 ]
 
 { #category : #'accessing - version' }
