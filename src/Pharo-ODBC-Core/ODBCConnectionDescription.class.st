@@ -13,7 +13,7 @@ Class {
 	#name : #ODBCConnectionDescription,
 	#superclass : #Object,
 	#instVars : [
-		'username',
+		'user',
 		'password',
 		'dataSourceName',
 		'odbcVersion'
@@ -21,7 +21,7 @@ Class {
 	#classVars : [
 		'DefaultODBCVersion'
 	],
-	#category : #'Pharo-ODBC-UFFI-Base'
+	#category : #'Pharo-ODBC-Core-Base'
 }
 
 { #category : #accessing }
@@ -30,16 +30,26 @@ ODBCConnectionDescription class >> availableODBCVersions [
 	^self odbcEnvironmentMapping keys
 ]
 
-{ #category : #accessing }
+{ #category : #defaults }
 ODBCConnectionDescription class >> defaultODBCVersion [
 
 	^DefaultODBCVersion ifNil: [ DefaultODBCVersion := self availableODBCVersions third ]
 ]
 
-{ #category : #accessing }
+{ #category : #defaults }
 ODBCConnectionDescription class >> defaultODBCVersion: aSymbol [
 
 	DefaultODBCVersion := aSymbol
+]
+
+{ #category : #'instance creation' }
+ODBCConnectionDescription class >> dsn: aString user: aString2 password: aString3 [ 
+	
+	^(self new)
+		dataSourceName: aString;
+		user: aString2;
+		password: aString3;
+		yourself
 ]
 
 { #category : #'private - accessing' }
@@ -84,7 +94,7 @@ ODBCConnectionDescription >> initialize [
 	odbcVersion := self class defaultODBCVersion
 ]
 
-{ #category : #'private - initialization' }
+{ #category : #utilities }
 ODBCConnectionDescription >> instantiateODBCEnvironment [
 	"Instantiate a default ODBC Environment instance depending on class side (global) setting"
 	
@@ -112,11 +122,11 @@ ODBCConnectionDescription >> password: anObject [
 ]
 
 { #category : #accessing }
-ODBCConnectionDescription >> username [
-	^ username
+ODBCConnectionDescription >> user [
+	^ user
 ]
 
 { #category : #accessing }
-ODBCConnectionDescription >> username: anObject [
-	username := anObject
+ODBCConnectionDescription >> user: anObject [
+	user := anObject
 ]

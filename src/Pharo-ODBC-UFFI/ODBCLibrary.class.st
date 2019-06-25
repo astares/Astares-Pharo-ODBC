@@ -19,7 +19,7 @@ ODBCLibrary >> macModuleName [
 { #category : #'accessing platform' }
 ODBCLibrary >> unixModuleName [
   
-	^'libodbc.so'
+	^ 'libodbc.so'
 ]
 
 { #category : #'accessing platform' }
