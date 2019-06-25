@@ -24,6 +24,6 @@ ODBCSQLEnvironment allDrivers
 
 The returned drivers collection includes instances of class *ODBCDriver*
 
-![ODBCDriver class](odbc_1.png)
+![ODBCDriver class](odbc_driver_class.png)
 
 
