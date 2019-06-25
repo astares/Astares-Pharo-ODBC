@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> allDataSources [
+ODBCSQLEnvironment class >> allDataSourceInfos [
 	"Return all available data sources with name and description"
-	<script: 'self allDataSources inspect'>
+	<script: 'self allDataSourceInfos inspect'>
 	
 	| env serverName description ret dataSources dir |
 	env := self forODBC3_80.
@@ -22,8 +22,7 @@ ODBCSQLEnvironment class >> allDataSources [
 					  serverName: serverName   length: serverName  byteSize nameLength: 0 
 					  description: description length: description byteSize nameLength: 0.
 	  ret = SQL_SUCCESS ] whileTrue: [ 
-		dataSources add: (ODBCDataSource 
-								 name: (serverName asString copyUpTo: Character null) description: (description asString copyUpTo: Character null)).
+		dataSources add: (serverName asString copyUpTo: Character null) -> (description asString copyUpTo: Character null).
 		dir := SQL_FETCH_NEXT.
 	].
 	^dataSources
@@ -31,9 +30,9 @@ ODBCSQLEnvironment class >> allDataSources [
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> allDrivers [
+ODBCSQLEnvironment class >> allDriversInfos [
 	"Return all available drivers with name and attributes"
-	<script: 'self allDrivers inspect'>
+	<script: 'self allDriversInfos inspect'>
 	
 	| env serverName  attributes ret dataSources dir |
 	env := self forODBC3_80.
@@ -45,8 +44,7 @@ ODBCSQLEnvironment class >> allDrivers [
 					  driverName: serverName   length: serverName  byteSize nameLength: 0 
 					  attributes: attributes length: attributes byteSize nameLength: 0.
 	  ret = SQL_SUCCESS ] whileTrue: [ 
-		dataSources add: (ODBCDriver 
-								 name: (serverName asString copyUpTo: Character null) attributes: (attributes asString copyUpTo: Character null)).
+		dataSources add: (serverName asString copyUpTo: Character null) -> (attributes asString copyUpTo: Character null).
 		dir := SQL_FETCH_NEXT.
 	].
 	^dataSources
