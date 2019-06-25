@@ -4,7 +4,7 @@ The ODBC library
 Class {
 	#name : #ODBCLibrary,
 	#superclass : #FFILibrary,
-	#category : #'Pharo-ODBC-UFFI-UFFI'
+	#category : #'Pharo-ODBC-UFFI-UFFI-Library'
 }
 
 { #category : #'accessing platform' }
