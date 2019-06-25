@@ -9,4 +9,4 @@ LibC system: 'odbcad32'
 ```
 which should then display the following window:
 
-!(odbc_1.png "ODBC Configuration Console")
+![ODBC Configuration Console](odbc_1.png)
