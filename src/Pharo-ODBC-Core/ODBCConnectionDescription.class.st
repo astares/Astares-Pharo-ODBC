@@ -84,7 +84,7 @@ ODBCConnectionDescription >> dataSourceName: anObject [
 { #category : #'private - accessing' }
 ODBCConnectionDescription >> environmentClass [
 
-	^ODBCSQLEnvironment 
+	^ODBCSQLEnvironmentHandle 
 ]
 
 { #category : #initialization }

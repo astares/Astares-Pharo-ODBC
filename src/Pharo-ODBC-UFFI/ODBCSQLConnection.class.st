@@ -7,20 +7,20 @@ Class {
 	#instVars : [
 		'environment'
 	],
-	#category : #'Pharo-ODBC-UFFI-UFFI-Model'
+	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
 { #category : #'private - primitives' }
 ODBCSQLConnection class >> allocateConnectionHandle: outputHandle on: anEnvironmentHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, ODBCSQLEnvironment anEnvironmentHandle,  ODBCSQLConnection* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, #ODBCSQLEnvironmentHandle anEnvironmentHandle,  ODBCSQLConnection* outputHandle))
 ]
 
-{ #category : #'instance allocation' }
+{ #category : #examples }
 ODBCSQLConnection class >> forODBC3 [
 	<script: 'self forODBC3 inspect'>
   
- 	^self on: ODBCSQLEnvironment forODBC3
+ 	^self on: ODBCSQLEnvironmentHandle forODBC3
 	
 ]
 

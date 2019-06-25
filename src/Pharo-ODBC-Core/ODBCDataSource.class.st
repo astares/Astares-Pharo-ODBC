@@ -15,7 +15,7 @@ Class {
 ODBCDataSource class >> allAvailable [
 	<script: 'self allAvailable inspect'>
 	
-	^ODBCSQLEnvironment allDataSourceInfos collect: [:each | 
+	^ODBCSQLEnvironmentHandle allDataSourceInfos collect: [:each | 
 		self name: each key description: each value ]
 ]
 

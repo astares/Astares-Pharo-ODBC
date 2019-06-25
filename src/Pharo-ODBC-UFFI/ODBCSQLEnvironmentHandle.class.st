@@ -2,13 +2,13 @@
 An environment handle
 "
 Class {
-	#name : #ODBCSQLEnvironment,
+	#name : #ODBCSQLEnvironmentHandle,
 	#superclass : #ODBCSQLHandle,
-	#category : #'Pharo-ODBC-UFFI-UFFI-Model'
+	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> allDataSourceInfos [
+ODBCSQLEnvironmentHandle class >> allDataSourceInfos [
 	"Return all available data sources with name and description"
 	<script: 'self allDataSourceInfos inspect'>
 	
@@ -30,7 +30,7 @@ ODBCSQLEnvironment class >> allDataSourceInfos [
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> allDriversInfos [
+ODBCSQLEnvironmentHandle class >> allDriversInfos [
 	"Return all available drivers with name and attributes"
 	<script: 'self allDriversInfos inspect'>
 	
@@ -52,7 +52,7 @@ ODBCSQLEnvironment class >> allDriversInfos [
 ]
 
 { #category : #'private - allocation' }
-ODBCSQLEnvironment class >> allocate [
+ODBCSQLEnvironmentHandle class >> allocate [
 
 	|env ret|
 	env := self new.
@@ -64,13 +64,13 @@ ODBCSQLEnvironment class >> allocate [
 ]
 
 { #category : #'private - allocation' }
-ODBCSQLEnvironment class >> allocateEnvironmentHandle: outputHandle [
+ODBCSQLEnvironmentHandle class >> allocateEnvironmentHandle: outputHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironment* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLEnvironment class >> forODBC2 [
+ODBCSQLEnvironmentHandle class >> forODBC2 [
 	
 	^self 
 		allocate
@@ -79,7 +79,7 @@ ODBCSQLEnvironment class >> forODBC2 [
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLEnvironment class >> forODBC3 [
+ODBCSQLEnvironmentHandle class >> forODBC3 [
 
 	^self 
 		allocate
@@ -88,7 +88,7 @@ ODBCSQLEnvironment class >> forODBC3 [
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLEnvironment class >> forODBC3_80 [
+ODBCSQLEnvironmentHandle class >> forODBC3_80 [
 
 	^self 
 		allocate
@@ -97,7 +97,7 @@ ODBCSQLEnvironment class >> forODBC3_80 [
 ]
 
 { #category : #'instance allocation' }
-ODBCSQLEnvironment class >> forODBC4 [
+ODBCSQLEnvironmentHandle class >> forODBC4 [
 	
 	^self 
 		allocate
@@ -106,54 +106,54 @@ ODBCSQLEnvironment class >> forODBC4 [
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> getDataSources: env direction: direction serverName: serverName length: bufferLength1 nameLength: nameLength1Ptr description: description length: bufferLength2 nameLength: nameLength2Ptr [
+ODBCSQLEnvironmentHandle class >> getDataSources: env direction: direction serverName: serverName length: bufferLength1 nameLength: nameLength1Ptr description: description length: bufferLength2 nameLength: nameLength2Ptr [
 	
-	^ self ffiCall: #(SQLRETURN SQLDataSources(ODBCSQLEnvironment env, SQLUSMALLINT direction, SQLCHAR* serverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* description, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
-	
-]
-
-{ #category : #'private - primitives' }
-ODBCSQLEnvironment class >> getDrivers: env direction: direction driverName: driverName length: bufferLength1 nameLength: nameLength1Ptr attributes: attributes length: bufferLength2 nameLength: nameLength2Ptr [
-	
-	^ self ffiCall: #(SQLRETURN SQLDrivers(ODBCSQLEnvironment env, SQLUSMALLINT direction, SQLCHAR* driverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* attributes, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
+	^ self ffiCall: #(SQLRETURN SQLDataSources(ODBCSQLEnvironmentHandle env, SQLUSMALLINT direction, SQLCHAR* serverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* description, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
 	
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLEnvironment class >> setODBCVersion: env to: odbcVersion [
+ODBCSQLEnvironmentHandle class >> getDrivers: env direction: direction driverName: driverName length: bufferLength1 nameLength: nameLength1Ptr attributes: attributes length: bufferLength2 nameLength: nameLength2Ptr [
 	
-	^ self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironment env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
+	^ self ffiCall: #(SQLRETURN SQLDrivers(ODBCSQLEnvironmentHandle env, SQLUSMALLINT direction, SQLCHAR* driverName, SQLSMALLINT bufferLength1, SQLSMALLINT* nameLength1Ptr, SQLCHAR* attributes, SQLSMALLINT bufferLength2, SQLSMALLINT* nameLength2Ptr))
+	
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLEnvironmentHandle class >> setODBCVersion: env to: odbcVersion [
+	
+	^ self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
 	
 ]
 
 { #category : #'private - accessing' }
-ODBCSQLEnvironment class >> sqlHandleType [
+ODBCSQLEnvironmentHandle class >> sqlHandleType [
 
 	^SQL_HANDLE_ENV
 ]
 
 { #category : #'private - accessing' }
-ODBCSQLEnvironment >> setODBCVersion: aVersion [
+ODBCSQLEnvironmentHandle >> setODBCVersion: aVersion [
 	"aVersion is one of the SQL_OV_ ... symbols"
  	self class setODBCVersion: self to: (ExternalAddress fromAddress: aVersion)
 ]
 
 { #category : #'accessing - version' }
-ODBCSQLEnvironment >> useODBC2 [
+ODBCSQLEnvironmentHandle >> useODBC2 [
  	self setODBCVersion: SQL_OV_ODBC2
 ]
 
 { #category : #'accessing - version' }
-ODBCSQLEnvironment >> useODBC3 [
+ODBCSQLEnvironmentHandle >> useODBC3 [
  	self setODBCVersion: SQL_OV_ODBC3
 ]
 
 { #category : #'accessing - version' }
-ODBCSQLEnvironment >> useODBC3_80 [
+ODBCSQLEnvironmentHandle >> useODBC3_80 [
  	self setODBCVersion: SQL_OV_ODBC3_80
 ]
 
 { #category : #'accessing - version' }
-ODBCSQLEnvironment >> useODBC4 [
+ODBCSQLEnvironmentHandle >> useODBC4 [
  	self setODBCVersion: SQL_OV_ODBC4
 ]

@@ -125,7 +125,7 @@ Class {
 		'SQL_TIMESTAMP_LEN',
 		'SQL_TIME_LEN'
 	],
-	#category : #'Pharo-ODBC-UFFI-UFFI-Support'
+	#category : #'Pharo-ODBC-UFFI-Support'
 }
 
 { #category : #initialization }
@@ -330,7 +330,7 @@ ODBCSQLConstants class >> initializeSQLDescriptorFieldIdentifiers [
 ODBCSQLConstants class >> initializeSQLHandleTypes [
 
 	SQLHANDLE := 'void*'.	
-	SQLHENV   := #ODBCSQLEnvironment.
+	SQLHENV   := #ODBCSQLEnvironmentHandle.
 	SQLHDBC   := #ODBCSQLConnection.
 	SQLHSTMT  := #ODBCSQLStatement.
 	SQLHDESC  := #ODBCSQLDescriptor

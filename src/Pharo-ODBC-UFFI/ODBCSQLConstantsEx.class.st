@@ -19,7 +19,7 @@ Class {
 		'SQL_OV_ODBC3_80',
 		'SQL_OV_ODBC4'
 	],
-	#category : #'Pharo-ODBC-UFFI-UFFI-Support'
+	#category : #'Pharo-ODBC-UFFI-Support'
 }
 
 { #category : #initialization }
