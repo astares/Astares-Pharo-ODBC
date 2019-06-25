@@ -8,7 +8,7 @@ Class {
 		'ODBCSQLConstants',
 		'ODBCSQLConstantsEx'
 	],
-	#category : #'Pharo-ODBC-UFFI-Model'
+	#category : #'Pharo-ODBC-UFFI-UFFI-Model'
 }
 
 { #category : #resources }

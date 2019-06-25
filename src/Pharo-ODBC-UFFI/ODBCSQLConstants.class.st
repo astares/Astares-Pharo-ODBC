@@ -125,7 +125,7 @@ Class {
 		'SQL_TIMESTAMP_LEN',
 		'SQL_TIME_LEN'
 	],
-	#category : #'Pharo-ODBC-UFFI-Support'
+	#category : #'Pharo-ODBC-UFFI-UFFI-Support'
 }
 
 { #category : #initialization }

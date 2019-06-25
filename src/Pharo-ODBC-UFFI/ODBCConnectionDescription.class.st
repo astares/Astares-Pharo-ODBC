@@ -21,7 +21,7 @@ Class {
 	#classVars : [
 		'DefaultODBCVersion'
 	],
-	#category : #'Pharo-ODBC-Base'
+	#category : #'Pharo-ODBC-UFFI-Base'
 }
 
 { #category : #accessing }
