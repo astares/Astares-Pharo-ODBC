@@ -1,27 +1,36 @@
 "
-An ODBC data source
+An ODBC driver
 "
 Class {
-	#name : #ODBCDataSource,
+	#name : #ODBCDriver,
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'description'
+		'attributes'
 	],
-	#category : #'Pharo-ODBC-UFFI-UFFI-Model'
+	#category : #'Pharo-ODBC-Core-Base'
 }
 
+{ #category : #accessing }
+ODBCDriver class >> allAvailable [
+	<script: 'self allAvailable inspect'>
+	
+	^ODBCSQLEnvironment allDriversInfos collect: [:each | 
+		ODBCDriver name: each key attributes: each value  
+	]
+]
+
 { #category : #'instance creation' }
-ODBCDataSource class >> name: aName description: aDescription [
+ODBCDriver class >> name: aName attributes: attributeDescription [
 
 	^(self new)
 		name: aName;
-		description: aDescription;
+		attributes: attributeDescription;
 		yourself
 ]
 
 { #category : #comparing }
-ODBCDataSource >> = anObject [
+ODBCDriver >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	self == anObject
@@ -32,38 +41,38 @@ ODBCDataSource >> = anObject [
 ]
 
 { #category : #accessing }
-ODBCDataSource >> description [
-	^ description
+ODBCDriver >> attributes [
+	^ attributes
 ]
 
 { #category : #accessing }
-ODBCDataSource >> description: anObject [
-	description := anObject
+ODBCDriver >> attributes: anObject [
+	attributes := anObject
 ]
 
 { #category : #comparing }
-ODBCDataSource >> hash [
+ODBCDriver >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ name hash
 ]
 
 { #category : #accessing }
-ODBCDataSource >> name [
+ODBCDriver >> name [
 	^ name
 ]
 
 { #category : #accessing }
-ODBCDataSource >> name: anObject [
+ODBCDriver >> name: anObject [
 	name := anObject
 ]
 
 { #category : #printing }
-ODBCDataSource >> printOn: aStream [
+ODBCDriver >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 
 	aStream
 		nextPutAll: name asString;
 		nextPutAll: ' - ';
-		nextPutAll: description asString
+		nextPutAll: attributes asString
 ]

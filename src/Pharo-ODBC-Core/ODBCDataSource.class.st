@@ -1,27 +1,27 @@
 "
-An ODBC driver
+An ODBC data source
 "
 Class {
-	#name : #ODBCDriver,
+	#name : #ODBCDataSource,
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'attributes'
+		'description'
 	],
-	#category : #'Pharo-ODBC-UFFI-UFFI-Model'
+	#category : #'Pharo-ODBC-Core-Base'
 }
 
 { #category : #'instance creation' }
-ODBCDriver class >> name: aName attributes: attributeDescription [
+ODBCDataSource class >> name: aName description: aDescription [
 
 	^(self new)
 		name: aName;
-		attributes: attributeDescription;
+		description: aDescription;
 		yourself
 ]
 
 { #category : #comparing }
-ODBCDriver >> = anObject [
+ODBCDataSource >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	self == anObject
@@ -32,38 +32,38 @@ ODBCDriver >> = anObject [
 ]
 
 { #category : #accessing }
-ODBCDriver >> attributes [
-	^ attributes
+ODBCDataSource >> description [
+	^ description
 ]
 
 { #category : #accessing }
-ODBCDriver >> attributes: anObject [
-	attributes := anObject
+ODBCDataSource >> description: anObject [
+	description := anObject
 ]
 
 { #category : #comparing }
-ODBCDriver >> hash [
+ODBCDataSource >> hash [
 	"Answer an integer value that is related to the identity of the receiver."
 
 	^ name hash
 ]
 
 { #category : #accessing }
-ODBCDriver >> name [
+ODBCDataSource >> name [
 	^ name
 ]
 
 { #category : #accessing }
-ODBCDriver >> name: anObject [
+ODBCDataSource >> name: anObject [
 	name := anObject
 ]
 
 { #category : #printing }
-ODBCDriver >> printOn: aStream [
+ODBCDataSource >> printOn: aStream [
 	"Append a sequence of characters to aStream that identify the receiver."
 
 	aStream
 		nextPutAll: name asString;
 		nextPutAll: ' - ';
-		nextPutAll: attributes asString
+		nextPutAll: description asString
 ]
