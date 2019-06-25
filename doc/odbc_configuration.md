@@ -16,6 +16,8 @@ which should then display the following window:
 
 If you click on the drivers tab you will see a list of all available drivers.
 
+![List of availabele ODBC drivers](odbc_driver_list.png)
+
 Within Pharo you can access the drivers using the following method:
 
 ```Smalltalk
