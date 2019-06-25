@@ -14,7 +14,7 @@ which should then display the following window:
 
 ## Drivers 
 
-If you click on the drivers tab you will see a list of all available drivers.
+If you click on the *drivers* tab you will see a list of all available drivers.
 
 ![List of availabele ODBC drivers](odbc_driver_list.png)
 
