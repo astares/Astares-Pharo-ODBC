@@ -1,6 +1,6 @@
 # ODBC Configuration
 
-On Windows you can open the ODBC administration panel either by running *odbcad32.exe* from the start menu or command line.
+On Windows you can open the ODBC administration panel either by running **odbcad32.exe** from the start menu or command line.
 
 If you want to open it directly from Pharo use
 
@@ -14,7 +14,7 @@ which should then display the following window:
 
 ## Drivers 
 
-If you click on the *drivers* tab you will see a list of all available drivers.
+If you click on the **drivers** tab you will see a list of all available drivers.
 
 ![List of availabele ODBC drivers](odbc_driver_list.png)
 
@@ -24,7 +24,7 @@ Within Pharo you can access the drivers using the following method:
 ODBCSQLEnvironment allDrivers
 ```
 
-The returned drivers collection includes instances of class *ODBCDriver*
+The returned drivers collection includes instances of class **ODBCDriver**
 
 ![ODBCDriver class](odbc_driver_class.png)
 
