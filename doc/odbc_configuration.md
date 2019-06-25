@@ -22,6 +22,8 @@ Within Pharo you can access the drivers using the following method:
 ODBCSQLEnvironment allDrivers
 ```
 
-The returned drivers collection includes instances of class *ODBCDriver**
+The returned drivers collection includes instances of class *ODBCDriver*
+
+![ODBCDriver class](odbc_1.png)
 
 
