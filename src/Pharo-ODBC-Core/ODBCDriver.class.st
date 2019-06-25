@@ -16,8 +16,7 @@ ODBCDriver class >> allAvailable [
 	<script: 'self allAvailable inspect'>
 	
 	^ODBCSQLEnvironment allDriversInfos collect: [:each | 
-		ODBCDriver name: each key attributes: each value  
-	]
+		self name: each key attributes: each value ]
 ]
 
 { #category : #'instance creation' }

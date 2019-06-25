@@ -11,6 +11,14 @@ Class {
 	#category : #'Pharo-ODBC-Core-Base'
 }
 
+{ #category : #accessing }
+ODBCDataSource class >> allAvailable [
+	<script: 'self allAvailable inspect'>
+	
+	^ODBCSQLEnvironment allDataSourceInfos collect: [:each | 
+		self name: each key description: each value ]
+]
+
 { #category : #'instance creation' }
 ODBCDataSource class >> name: aName description: aDescription [
 
