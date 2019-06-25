@@ -1,3 +1,6 @@
+"
+Unit tests for ODBCConnectionDescription
+"
 Class {
 	#name : #ODBCConnectionDescriptionTest,
 	#superclass : #TestCase,

@@ -1,5 +1,5 @@
 "
-An ODBC data source
+An ODBC data source with a name and description. 
 "
 Class {
 	#name : #ODBCDataSource,
