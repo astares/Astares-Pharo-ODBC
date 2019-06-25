@@ -43,12 +43,12 @@ ODBCConnectionDescription class >> defaultODBCVersion: aSymbol [
 ]
 
 { #category : #'instance creation' }
-ODBCConnectionDescription class >> dsn: aString user: aString2 password: aString3 [ 
+ODBCConnectionDescription class >> dsn: dataSourceName user: user password: password [ 
 	
 	^(self new)
-		dataSourceName: aString;
-		user: aString2;
-		password: aString3;
+		dataSourceName: dataSourceName;
+		user: user;
+		password: password;
 		yourself
 ]
 
