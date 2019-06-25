@@ -331,7 +331,7 @@ ODBCSQLConstants class >> initializeSQLHandleTypes [
 
 	SQLHANDLE := 'void*'.	
 	SQLHENV   := #ODBCSQLEnvironmentHandle.
-	SQLHDBC   := #ODBCSQLConnection.
+	SQLHDBC   := #ODBCSQLConnectionHandle.
 	SQLHSTMT  := #ODBCSQLStatement.
 	SQLHDESC  := #ODBCSQLDescriptor
 		
