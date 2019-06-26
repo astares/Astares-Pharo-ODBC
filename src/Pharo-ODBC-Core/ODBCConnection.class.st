@@ -22,7 +22,8 @@ Class {
 	#name : #ODBCConnection,
 	#superclass : #Object,
 	#instVars : [
-		'connectionDescription'
+		'connectionDescription',
+		'connectionHandle'
 	],
 	#category : #'Pharo-ODBC-Core-Base'
 }
@@ -31,6 +32,14 @@ Class {
 ODBCConnection class >> dsn: dataSourceName user: user password: password [
 
 	^self for: (ODBCConnectionDescription dsn: dataSourceName user: user password: password)
+]
+
+{ #category : #examples }
+ODBCConnection class >> example [
+
+	| conn |
+	conn := ODBCConnection dsn: 'pharo_sqlite3' user:  '' password: ''.
+	conn open
 ]
 
 { #category : #'instance creation' }
@@ -51,4 +60,14 @@ ODBCConnection >> connectionDescription [
 { #category : #accessing }
 ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
+]
+
+{ #category : #opening }
+ODBCConnection >> open [ 
+	| envHandle |
+	envHandle := self connectionDescription instantiateODBCEnvironment.
+	connectionHandle := ODBCSQLConnectionHandle on: envHandle.
+	connectionHandle connect: self connectionDescription dataSourceName 
+							user: self connectionDescription user 
+							password: self connectionDescription password
 ]
