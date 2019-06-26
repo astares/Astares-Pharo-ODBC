@@ -16,6 +16,12 @@ ODBCSQLConnectionHandle class >> allocateConnectionHandle: outputHandle on: anEn
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, #ODBCSQLEnvironmentHandle anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
 ]
 
+{ #category : #'private - primitives' }
+ODBCSQLConnectionHandle class >> connect: env server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
+
+	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLEnvironmentHandle env, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
+]
+
 { #category : #examples }
 ODBCSQLConnectionHandle class >> forODBC3 [
 	<script: 'self forODBC3 inspect'>
@@ -42,6 +48,21 @@ ODBCSQLConnectionHandle class >> on: anODBCEnvironmentHandle [
 ODBCSQLConnectionHandle class >> sqlHandleType [
 
 	^SQL_HANDLE_DBC
+]
+
+{ #category : #connecting }
+ODBCSQLConnectionHandle >> connect: dsn user: user password: password [ 
+	
+	| ret |
+	ret := self class 
+		connect: self environmentHandle 
+		server: dsn 
+		length: dsn byteSize  
+		user: user 
+		length: user byteSize 
+		password: password 
+		length: password byteSize.
+	ret inspect	
 ]
 
 { #category : #accessing }
