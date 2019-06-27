@@ -10,18 +10,6 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
-{ #category : #'private - primitives' }
-ODBCSQLConnectionHandle class >> allocateConnectionHandle: outputHandle on: anEnvironmentHandle [
-
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, #ODBCSQLEnvironmentHandle anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
-]
-
-{ #category : #'private - primitives' }
-ODBCSQLConnectionHandle class >> connect: env server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
- 
-	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLEnvironmentHandle env, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
-]
-
 { #category : #examples }
 ODBCSQLConnectionHandle class >> forODBC3 [
 	<script: 'self forODBC3 inspect'>
@@ -36,12 +24,24 @@ ODBCSQLConnectionHandle class >> on: anODBCEnvironmentHandle [
 	conn := self new
 		environmentHandle: anODBCEnvironmentHandle;
 		yourself.
-	ret := self allocateConnectionHandle: conn on: anODBCEnvironmentHandle.
+	ret := self sqlAllocateConnectionHandle: conn on: anODBCEnvironmentHandle.
 	^ ret = SQL_SUCCESS
 		ifTrue: [ ^ conn ]
 		ifFalse:
 			[ self error: 'Not able to allocate ODBC connection: ' , ret asString ]
 				yourself
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLConnectionHandle class >> sqlAllocateConnectionHandle: outputHandle on: anEnvironmentHandle [
+
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, #ODBCSQLEnvironmentHandle anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
+]
+
+{ #category : #'private - primitives' }
+ODBCSQLConnectionHandle class >> sqlConnect: env server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
+ 
+	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLConnectionHandle env, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
 ]
 
 { #category : #'private - accessing' }
@@ -55,13 +55,13 @@ ODBCSQLConnectionHandle >> connect: dsn user: user password: password [
 	
 	| ret |
 	ret := self class 
-		connect: self environmentHandle 
-		server: dsn 
-		length: SQL_NTS  
-		user: user 
-		length: SQL_NTS
-		password: password 
-		length: SQL_NTS.
+				sqlConnect: self 
+				server: dsn 
+				length: dsn size
+				user: user 
+				length: user size
+				password: password 
+				length: password size.
 	ret inspect	
 ]
 

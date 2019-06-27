@@ -42,6 +42,14 @@ ODBCConnection class >> example [
 	conn open
 ]
 
+{ #category : #examples }
+ODBCConnection class >> example2 [
+
+	|conn|
+conn := ODBCConnection dsn: 'PostgreSQL35W' user: 'postgres' password: (UIManager default request: 'Password' initialAnswer: 'il').
+conn open.
+]
+
 { #category : #'instance creation' }
 ODBCConnection class >> for: aConnectionDescription [
 
