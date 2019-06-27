@@ -18,7 +18,7 @@ ODBCSQLConnectionHandle class >> allocateConnectionHandle: outputHandle on: anEn
 
 { #category : #'private - primitives' }
 ODBCSQLConnectionHandle class >> connect: env server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
-
+ 
 	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLEnvironmentHandle env, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
 ]
 
@@ -57,11 +57,11 @@ ODBCSQLConnectionHandle >> connect: dsn user: user password: password [
 	ret := self class 
 		connect: self environmentHandle 
 		server: dsn 
-		length: dsn byteSize  
+		length: SQL_NTS  
 		user: user 
-		length: user byteSize 
+		length: SQL_NTS
 		password: password 
-		length: password byteSize.
+		length: SQL_NTS.
 	ret inspect	
 ]
 
