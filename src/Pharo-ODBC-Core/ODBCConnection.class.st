@@ -35,7 +35,15 @@ ODBCConnection class >> dsn: dataSourceName user: user password: password [
 ]
 
 { #category : #examples }
-ODBCConnection class >> example [
+ODBCConnection class >> example2 [
+
+	|conn|
+conn := ODBCConnection dsn: 'PostgreSQL35W' user: 'postgres' password: (UIManager default request: 'Password' initialAnswer: 'il').
+conn open.
+]
+
+{ #category : #examples }
+ODBCConnection class >> example32Bit [
 
 	| conn |
 	conn := ODBCConnection dsn: 'pharo_sqlite3' user:  '' password: ''.
@@ -43,11 +51,11 @@ ODBCConnection class >> example [
 ]
 
 { #category : #examples }
-ODBCConnection class >> example2 [
+ODBCConnection class >> example64Bit [
 
-	|conn|
-conn := ODBCConnection dsn: 'PostgreSQL35W' user: 'postgres' password: (UIManager default request: 'Password' initialAnswer: 'il').
-conn open.
+	| conn |
+	conn := ODBCConnection dsn: 'pharo_sqlite64' user:  '' password: ''.
+	conn open
 ]
 
 { #category : #'instance creation' }
@@ -68,6 +76,12 @@ ODBCConnection >> connectionDescription [
 { #category : #accessing }
 ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
+]
+
+{ #category : #testing }
+ODBCConnection >> isConnected [
+
+	^connectionHandle ifNil: [ false ] ifNotNil: [ connectionHandle isConnected ]
 ]
 
 { #category : #opening }

@@ -5,7 +5,8 @@ Class {
 	#name : #ODBCSQLConnectionHandle,
 	#superclass : #ODBCSQLHandle,
 	#instVars : [
-		'environmentHandle'
+		'environmentHandle',
+		'isConnected'
 	],
 	#category : #'Pharo-ODBC-UFFI-Model'
 }
@@ -44,6 +45,11 @@ ODBCSQLConnectionHandle class >> sqlConnect: connHandle server: serverName lengt
 	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLConnectionHandle connHandle, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
 ]
 
+{ #category : #'private - primitives' }
+ODBCSQLConnectionHandle class >> sqlDisconnect: connHandle [ 
+	^ self ffiCall: #(SQLRETURN SQLDisconnect(ODBCSQLConnectionHandle connHandle))
+]
+
 { #category : #'private - accessing' }
 ODBCSQLConnectionHandle class >> sqlHandleType [
 
@@ -62,7 +68,16 @@ ODBCSQLConnectionHandle >> connect: dsn user: user password: password [
 				length: user size
 				password: password 
 				length: password size.
-	ret inspect	
+	(ret = SQL_SUCCESS) | (ret = SQL_SUCCESS_WITH_INFO) 
+		ifTrue: [ isConnected := true ].
+	^isConnected 	
+]
+
+{ #category : #connecting }
+ODBCSQLConnectionHandle >> disconnect [ 
+	
+	self isConnected ifFalse: [ ^self ].
+	self class sqlDisconnect: self
 ]
 
 { #category : #accessing }
@@ -77,6 +92,19 @@ ODBCSQLConnectionHandle >> environmentHandle: anObject [
 
 { #category : #'private - finalization' }
 ODBCSQLConnectionHandle >> finalize [ 
+	self disconnect.
 	environmentHandle := nil.
 	super finalize 
+]
+
+{ #category : #initialization }
+ODBCSQLConnectionHandle >> initialize [ 
+	super initialize.
+	isConnected := false
+]
+
+{ #category : #testing }
+ODBCSQLConnectionHandle >> isConnected [
+
+	^isConnected
 ]
