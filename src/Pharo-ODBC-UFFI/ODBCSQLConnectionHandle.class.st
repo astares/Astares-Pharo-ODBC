@@ -39,9 +39,9 @@ ODBCSQLConnectionHandle class >> sqlAllocateConnectionHandle: outputHandle on: a
 ]
 
 { #category : #'private - primitives' }
-ODBCSQLConnectionHandle class >> sqlConnect: env server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
+ODBCSQLConnectionHandle class >> sqlConnect: connHandle server: serverName length: serverNameLength user: userName length: userNameLength password: password length: passwordLength [
  
-	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLConnectionHandle env, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
+	^ self ffiCall: #(SQLRETURN SQLConnect(ODBCSQLConnectionHandle connHandle, SQLCHAR* serverName, SQLSMALLINT serverNameLength, SQLCHAR * userName, SQLSMALLINT userNameLength, SQLCHAR * password, SQLSMALLINT passwordLength))
 ]
 
 { #category : #'private - accessing' }
