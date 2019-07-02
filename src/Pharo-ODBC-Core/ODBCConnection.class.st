@@ -78,6 +78,12 @@ ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
 ]
 
+{ #category : #opening }
+ODBCConnection >> disconnect [
+
+	connectionHandle disconnect
+]
+
 { #category : #testing }
 ODBCConnection >> isConnected [
 
@@ -91,5 +97,9 @@ ODBCConnection >> open [
 	connectionHandle := ODBCSQLConnectionHandle on: envHandle.
 	connectionHandle connect: self connectionDescription dataSourceName 
 							user: self connectionDescription user 
-							password: self connectionDescription password
+							password: self connectionDescription password.
+							
+	self toFinalizeSend: #value:
+		to: [:handle | handle disconnect ]
+		with:	connectionHandle 				
 ]
