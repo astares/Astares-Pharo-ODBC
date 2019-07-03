@@ -61,6 +61,8 @@ ODBCSQLConnectionHandle class >> sqlHandleType [
 ODBCSQLConnectionHandle >> connect: dsn user: user password: password [ 
 	
 	| ret |
+	self isConnected ifTrue: [ ^self ].
+	
 	ret := self class 
 				sqlConnect: self 
 				server: dsn 
@@ -70,16 +72,20 @@ ODBCSQLConnectionHandle >> connect: dsn user: user password: password [
 				password: password 
 				length: password size.
 	(ret = SQL_SUCCESS) | (ret = SQL_SUCCESS_WITH_INFO) 
-		ifTrue: [ isConnected := true ].
+		ifTrue: [ 
+			isConnected := true.
+			
+			"Now register for receiving a #finalize on the finalization executor (which is  
+			 a shallow copy) to be able to close the connecton before it's handle is freed."
+			self registerForFinalization ].
 	^isConnected 	
 ]
 
 { #category : #connecting }
 ODBCSQLConnectionHandle >> disconnect [ 
-	self class log: 'Disconnect called'.
 	self isConnected ifFalse: [ ^self ].
-	self class log: 'Disconnect yes'.
-	self class sqlDisconnect: self
+	self class sqlDisconnect: self.
+	self unregisterFromFinalization
 ]
 
 { #category : #accessing }
@@ -104,11 +110,23 @@ ODBCSQLConnectionHandle >> finalize [
 ODBCSQLConnectionHandle >> initialize [ 
 	super initialize.
 	isConnected := false.
-	WeakRegistry default add: self
+	
 ]
 
 { #category : #testing }
 ODBCSQLConnectionHandle >> isConnected [
 
 	^isConnected
+]
+
+{ #category : #'private - finalization' }
+ODBCSQLConnectionHandle >> registerForFinalization [
+
+	WeakRegistry default add: self
+]
+
+{ #category : #'private - finalization' }
+ODBCSQLConnectionHandle >> unregisterFromFinalization [
+
+	WeakRegistry default remove: self ifAbsent: [ ]
 ]
