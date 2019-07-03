@@ -8,6 +8,31 @@ Class {
 }
 
 { #category : #tests }
+ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollect [
+
+	|nrConnectionsBefore nrConnectionHandlesBefore conn|
+
+	Smalltalk garbageCollect. 
+	nrConnectionsBefore := ODBCConnection allInstances size.
+	nrConnectionHandlesBefore := ODBCSQLConnectionHandle allInstances size.
+	
+	conn := ODBCConnection dsn: 'pharo_sqlite64' user:  '' password: ''.
+
+	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore + 1.
+	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore.  "No handle used as connection is not open."
+	
+	conn := nil.	"decouple"
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
+
+	"Connection object, connection handle and it's executor should be gone"
+	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore.
+	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore   
+
+]
+
+{ #category : #tests }
 ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollectWhenOpen [
 	"For this test to run an SQL"
 	|nrConnectionsBefore     conn nrConnectionHandlesBefore |
