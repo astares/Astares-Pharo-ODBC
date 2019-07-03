@@ -7,7 +7,7 @@ Class {
 	#category : #'Pharo-ODBC-UFFI-Model'
 }
 
-{ #category : #'private - primitives' }
+{ #category : #accessing }
 ODBCSQLEnvironmentHandle class >> allDataSourceInfos [
 	"Return all available data sources with name and description"
 	<script: 'self allDataSourceInfos inspect'>
@@ -29,7 +29,7 @@ ODBCSQLEnvironmentHandle class >> allDataSourceInfos [
 	
 ]
 
-{ #category : #'private - primitives' }
+{ #category : #accessing }
 ODBCSQLEnvironmentHandle class >> allDriversInfos [
 	"Return all available drivers with name and attributes"
 	<script: 'self allDriversInfos inspect'>
@@ -121,7 +121,7 @@ ODBCSQLEnvironmentHandle class >> getDrivers: env direction: direction driverNam
 
 { #category : #'private - primitives' }
 ODBCSQLEnvironmentHandle class >> setODBCVersion: env to: odbcVersion [
-	
+
 	^ self ffiCall: #(SQLRETURN SQLSetEnvAttr(ODBCSQLEnvironmentHandle env, SQL_ATTR_ODBC_VERSION, SQLPOINTER odbcVersion, 0))
 	
 ]

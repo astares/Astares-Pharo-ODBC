@@ -48,6 +48,14 @@ ODBCSQLHandle class >> isAbstract [
 	^self name = #ODBCSQLHandle
 ]
 
+{ #category : #debugging }
+ODBCSQLHandle class >> log: aString [
+
+	Transcript show: aString.
+	Transcript cr.
+	Transcript flush.
+]
+
 { #category : #'private - accessing' }
 ODBCSQLHandle class >> sqlHandleType [
 

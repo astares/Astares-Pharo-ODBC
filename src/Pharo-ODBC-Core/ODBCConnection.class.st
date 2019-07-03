@@ -97,9 +97,5 @@ ODBCConnection >> open [
 	connectionHandle := ODBCSQLConnectionHandle on: envHandle.
 	connectionHandle connect: self connectionDescription dataSourceName 
 							user: self connectionDescription user 
-							password: self connectionDescription password.
-							
-	self toFinalizeSend: #value:
-		to: [:handle | handle disconnect ]
-		with:	connectionHandle 				
+							password: self connectionDescription password
 ]

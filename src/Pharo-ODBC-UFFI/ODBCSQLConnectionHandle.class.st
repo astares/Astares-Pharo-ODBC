@@ -35,7 +35,7 @@ ODBCSQLConnectionHandle class >> on: anODBCEnvironmentHandle [
 
 { #category : #'private - primitives' }
 ODBCSQLConnectionHandle class >> sqlAllocateConnectionHandle: outputHandle on: anEnvironmentHandle [
-
+	
 	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_DBC, #ODBCSQLEnvironmentHandle anEnvironmentHandle,  #ODBCSQLConnectionHandle* outputHandle))
 ]
 
@@ -47,6 +47,7 @@ ODBCSQLConnectionHandle class >> sqlConnect: connHandle server: serverName lengt
 
 { #category : #'private - primitives' }
 ODBCSQLConnectionHandle class >> sqlDisconnect: connHandle [ 
+	 
 	^ self ffiCall: #(SQLRETURN SQLDisconnect(ODBCSQLConnectionHandle connHandle))
 ]
 
@@ -75,8 +76,9 @@ ODBCSQLConnectionHandle >> connect: dsn user: user password: password [
 
 { #category : #connecting }
 ODBCSQLConnectionHandle >> disconnect [ 
-	
+	self class log: 'Disconnect called'.
 	self isConnected ifFalse: [ ^self ].
+	self class log: 'Disconnect yes'.
 	self class sqlDisconnect: self
 ]
 
@@ -92,6 +94,7 @@ ODBCSQLConnectionHandle >> environmentHandle: anObject [
 
 { #category : #'private - finalization' }
 ODBCSQLConnectionHandle >> finalize [ 
+ 	self class log: 'Finalize called'.
 	self disconnect.
 	environmentHandle := nil.
 	super finalize 
@@ -100,7 +103,8 @@ ODBCSQLConnectionHandle >> finalize [
 { #category : #initialization }
 ODBCSQLConnectionHandle >> initialize [ 
 	super initialize.
-	isConnected := false
+	isConnected := false.
+	WeakRegistry default add: self
 ]
 
 { #category : #testing }
