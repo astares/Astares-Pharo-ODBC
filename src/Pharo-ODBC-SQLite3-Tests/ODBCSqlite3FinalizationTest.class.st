@@ -18,8 +18,12 @@ ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollect [
 	
 	conn := ODBCConnection dsn: 'pharo_sqlite64' user:  '' password: ''.
 
+	self deny: conn isConnected.
+	
 	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore + 1.
-	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore.  "No handle used as connection is not open."
+	
+	"Internally no handle used yet when connection is not opened - so nr of instances should not increase"
+	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore.  
 	
 	conn := nil.	"decouple"
 	Smalltalk garbageCollect.
@@ -44,8 +48,13 @@ ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollectWhenOpen [
 	conn := ODBCConnection dsn: 'pharo_sqlite64' user:  '' password: ''.
    conn open.
 
+	self assert: conn isConnected.
+	
 	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore + 1.
-	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore + 2.  "The object and the executor (a shallow copy) for finalization - therefore one more."
+	
+	"When connection is opened we internally should have one connection handle and as this one is registered for finalization 
+	 another instance (which is a shallow copy of the original connection handle receiving the postmortem #finalize during GC)."
+	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore + 2.  
 	
 	conn := nil.	"decouple"
 	Smalltalk garbageCollect.
