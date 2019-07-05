@@ -84,6 +84,17 @@ ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
 ]
 
+{ #category : #statements }
+ODBCConnection >> executeQuery: queryString [
+
+	^self executeQuery: queryString with: #()
+	
+]
+
+{ #category : #statements }
+ODBCConnection >> executeQuery: queryString with: argument [
+]
+
 { #category : #testing }
 ODBCConnection >> isConnected [
 
