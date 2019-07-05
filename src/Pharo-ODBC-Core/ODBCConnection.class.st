@@ -68,6 +68,12 @@ ODBCConnection class >> for: aConnectionDescription [
 
 ]
 
+{ #category : #opening }
+ODBCConnection >> close [
+
+	connectionHandle disconnect
+]
+
 { #category : #accessing }
 ODBCConnection >> connectionDescription [
 	^ connectionDescription
@@ -76,12 +82,6 @@ ODBCConnection >> connectionDescription [
 { #category : #accessing }
 ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
-]
-
-{ #category : #opening }
-ODBCConnection >> disconnect [
-
-	connectionHandle disconnect
 ]
 
 { #category : #testing }
