@@ -79,7 +79,7 @@ ODBCConnection >> connectionDescription [
 	^ connectionDescription
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ODBCConnection >> connectionDescription: anObject [
 	connectionDescription := anObject
 ]
@@ -92,7 +92,13 @@ ODBCConnection >> executeQuery: queryString [
 ]
 
 { #category : #statements }
-ODBCConnection >> executeQuery: queryString with: argument [
+ODBCConnection >> executeQuery: queryString with: arguments [
+	"Execute the given query string using the given arguments"
+	
+	|statement result |
+	statement := self statementClass connection: self query: queryString.
+	result := statement executeQueryWithArguments: arguments.
+	^result
 ]
 
 { #category : #testing }
@@ -109,4 +115,11 @@ ODBCConnection >> open [
 	connectionHandle connect: self connectionDescription dataSourceName 
 							user: self connectionDescription user 
 							password: self connectionDescription password
+]
+
+{ #category : #'private - accessing' }
+ODBCConnection >> statementClass [
+	"Return the default statement class"
+	
+	^ODBCSQLStatement
 ]
