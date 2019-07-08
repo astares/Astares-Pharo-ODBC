@@ -97,7 +97,7 @@ ODBCConnection >> executeQuery: queryString with: arguments [
 	
 	|statement result |
 	statement := self statementClass connection: self query: queryString.
-	result := statement executeQueryWithArguments: arguments.
+	result := statement executeWithArguments: arguments.
 	^result
 ]
 
@@ -121,5 +121,5 @@ ODBCConnection >> open [
 ODBCConnection >> statementClass [
 	"Return the default statement class"
 	
-	^ODBCSQLStatement
+	^ODBCStatement
 ]
