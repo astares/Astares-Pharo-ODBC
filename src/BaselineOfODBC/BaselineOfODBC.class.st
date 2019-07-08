@@ -22,6 +22,7 @@ BaselineOfODBC >> baseline: spec [
 		spec 
 			group: 'Core' with: #('Pharo-ODBC-Core' );
 			group: 'Tests' with: #('Pharo-ODBC-UFFI-Tests' 'Pharo-ODBC-Core-Tests');
-			group: 'default' with: #('Core' 'Tests');
+			group: 'UI' with: #('Pharo-ODBC-UI');
+			group: 'default' with: #('UI' 'Tests');
 			group: 'all' with: #('default'). ]
 ]
