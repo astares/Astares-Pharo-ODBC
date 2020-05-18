@@ -7,5 +7,5 @@ Class {
 { #category : #tests }
 ODBCLibraryTest >> testUniqueInstance [
 
-	self assert: ODBCLibrary uniqueInstance == ODBCLibrary uniqueInstance
+	self assert: ODBCLibrary uniqueInstance identicalTo: ODBCLibrary uniqueInstance
 ]

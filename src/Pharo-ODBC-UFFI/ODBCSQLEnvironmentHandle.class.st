@@ -66,7 +66,7 @@ ODBCSQLEnvironmentHandle class >> allocate [
 { #category : #'private - allocation' }
 ODBCSQLEnvironmentHandle class >> allocateEnvironmentHandle: outputHandle [
 
-	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE,  ODBCSQLEnvironmentHandle* outputHandle))
+	^ self ffiCall: #(SQLRETURN SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, ODBCSQLEnvironmentHandle* outputHandle))
 ]
 
 { #category : #'instance allocation' }

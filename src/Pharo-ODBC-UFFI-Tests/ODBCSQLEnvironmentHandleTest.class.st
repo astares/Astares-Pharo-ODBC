@@ -10,7 +10,7 @@ ODBCSQLEnvironmentHandleTest >> testAllocateNewHandles [
 	|h1 h2|
 	h1 := ODBCSQLEnvironmentHandle allocate.
 	h2 := ODBCSQLEnvironmentHandle allocate.
-	self deny: h1 handle = h2 handle
+	self deny: h1 handle equals: h2 handle
 	
 ]
 
