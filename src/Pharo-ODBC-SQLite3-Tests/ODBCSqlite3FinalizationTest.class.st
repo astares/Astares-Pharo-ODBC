@@ -7,12 +7,21 @@ Class {
 	#category : #'Pharo-ODBC-SQLite3-Tests-Finalization'
 }
 
+{ #category : #private }
+ODBCSqlite3FinalizationTest >> collectGarbage [
+
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect.
+	Smalltalk garbageCollect
+]
+
 { #category : #tests }
 ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollect [
 
 	|nrConnectionsBefore nrConnectionHandlesBefore conn|
 
-	Smalltalk garbageCollect. 
+	self collectGarbage.
+	
 	nrConnectionsBefore := ODBCConnection allInstances size.
 	nrConnectionHandlesBefore := ODBCSQLConnectionHandle allInstances size.
 	
@@ -26,9 +35,8 @@ ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollect [
 	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore.  
 	
 	conn := nil.	"decouple"
-	Smalltalk garbageCollect.
-	Smalltalk garbageCollect.
-	Smalltalk garbageCollect.
+		
+	self collectGarbage.
 
 	"Connection object, connection handle and it's executor should be gone"
 	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore.
@@ -39,13 +47,14 @@ ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollect [
 { #category : #tests }
 ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollectWhenOpen [
 	"For this test to run an SQL"
-	|nrConnectionsBefore     conn nrConnectionHandlesBefore |
+	|nrConnectionsBefore conn nrConnectionHandlesBefore |
 
-	Smalltalk garbageCollect. 
+	self collectGarbage.
+	
 	nrConnectionsBefore := ODBCConnection allInstances size.
 	nrConnectionHandlesBefore := ODBCSQLConnectionHandle allInstances size.
 	
-	conn := ODBCConnection dsn: 'pharo_sqlite64' user:  '' password: ''.
+	conn := ODBCConnection dsn: 'pharo_sqlite64' user: '' password: ''.
    conn open.
 
 	self assert: conn isConnected.
@@ -57,9 +66,8 @@ ODBCSqlite3FinalizationTest >> testCorrectlyGarbageCollectWhenOpen [
 	self assert: ODBCSQLConnectionHandle allInstances size equals: nrConnectionHandlesBefore + 2.  
 	
 	conn := nil.	"decouple"
-	Smalltalk garbageCollect.
-	Smalltalk garbageCollect.
-	Smalltalk garbageCollect.
+	
+	self collectGarbage.
 
 	"Connection object, connection handle and it's executor should be gone"
 	self assert: ODBCConnection allInstances size equals: nrConnectionsBefore.
