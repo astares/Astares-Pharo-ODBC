@@ -3,7 +3,7 @@ ODBC Binding for Pharo
 
 ```Smalltalk
 Metacello new 
-	repository: 'github://astares/Pharo-ODBC/src';
+	repository: 'github://astares/Astares-Pharo-ODBC/src';
 	baseline: 'ODBC';
 	load
 ```
